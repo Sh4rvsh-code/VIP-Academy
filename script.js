@@ -184,45 +184,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 7. Mobile Menu (Enhanced logic)
+    // 7. Mobile Menu (clean, CSS-driven)
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navLists = document.querySelectorAll('.nav-links');
 
-    if (mobileMenuBtn && navLists.length) {
-        mobileMenuBtn.addEventListener('click', () => {
-            // Only apply mobile dropdown behaviour on small screens
+    if (mobileMenuBtn && navbar) {
+        const icon = mobileMenuBtn.querySelector('i');
+
+        const closeMenu = () => {
+            navbar.classList.remove('nav-open');
+            if (icon) {
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            }
+        };
+
+        const toggleMenu = () => {
             if (window.innerWidth > 768) return;
+            const willOpen = !navbar.classList.contains('nav-open');
+            navbar.classList.toggle('nav-open', willOpen);
+            if (icon) {
+                icon.classList.toggle('fa-bars', !willOpen);
+                icon.classList.toggle('fa-times', willOpen);
+            }
+        };
 
-            const isOpen = !document.getElementById('navbar').classList.contains('nav-open');
-            const icon = mobileMenuBtn.querySelector('i');
+        mobileMenuBtn.addEventListener('click', toggleMenu);
 
-            document.getElementById('navbar').classList.toggle('nav-open', isOpen);
+        // Close menu when resizing to desktop
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768 && navbar.classList.contains('nav-open')) {
+                closeMenu();
+            }
+        });
 
-            navLists.forEach((list) => {
-                if (isOpen) {
-                    list.style.display = 'flex';
-                    list.style.flexDirection = 'column';
-                    list.style.position = 'absolute';
-                    list.style.top = '70px';
-                    list.style.left = '0';
-                    list.style.width = '100%';
-                    list.style.backgroundColor = 'white';
-                    list.style.padding = '40px 20px';
-                    list.style.boxShadow = '0 10px 15px rgba(0,0,0,0.1)';
-                    list.style.animation = 'slideDown 0.3s ease forwards';
-                    list.style.gap = '20px';
-                } else {
-                    list.style.display = 'none';
+        // Close menu after tapping a nav link on mobile
+        navbar.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768 && navbar.classList.contains('nav-open')) {
+                    closeMenu();
                 }
             });
-
-            if (icon) {
-                if (isOpen) {
-                    icon.classList.replace('fa-bars', 'fa-times');
-                } else {
-                    icon.classList.replace('fa-times', 'fa-bars');
-                }
-            }
         });
     }
 
