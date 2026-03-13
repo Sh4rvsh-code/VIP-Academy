@@ -260,6 +260,21 @@ img {
     color: var(--accent-color);
 }
 
+/* Mobile menu open state – force dark text on white background */
+#navbar.nav-open {
+    background-color: var(--white);
+    box-shadow: var(--shadow);
+}
+
+#navbar.nav-open .nav-links a {
+    color: var(--primary-color);
+    opacity: 1;
+}
+
+#navbar.nav-open .mobile-menu-btn {
+    color: var(--primary-color);
+}
+
 .mobile-menu-btn {
     display: none;
     font-size: 1.5rem;

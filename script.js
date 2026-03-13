@@ -186,28 +186,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 7. Mobile Menu (Enhanced logic)
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
+    const navLists = document.querySelectorAll('.nav-links');
 
-    mobileMenuBtn.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        const icon = mobileMenuBtn.querySelector('i');
-        if (navLinks.classList.contains('active')) {
-            icon.classList.replace('fa-bars', 'fa-times');
-            navLinks.style.display = 'flex';
-            navLinks.style.flexDirection = 'column';
-            navLinks.style.position = 'absolute';
-            navLinks.style.top = '70px';
-            navLinks.style.left = '0';
-            navLinks.style.width = '100%';
-            navLinks.style.backgroundColor = 'white';
-            navLinks.style.padding = '40px 20px';
-            navLinks.style.boxShadow = '0 10px 15px rgba(0,0,0,0.1)';
-            navLinks.style.animation = 'slideDown 0.3s ease forwards';
-        } else {
-            icon.classList.replace('fa-times', 'fa-bars');
-            navLinks.style.display = 'none';
-        }
-    });
+    if (mobileMenuBtn && navLists.length) {
+        mobileMenuBtn.addEventListener('click', () => {
+            // Only apply mobile dropdown behaviour on small screens
+            if (window.innerWidth > 768) return;
+
+            const isOpen = !document.getElementById('navbar').classList.contains('nav-open');
+            const icon = mobileMenuBtn.querySelector('i');
+
+            document.getElementById('navbar').classList.toggle('nav-open', isOpen);
+
+            navLists.forEach((list) => {
+                if (isOpen) {
+                    list.style.display = 'flex';
+                    list.style.flexDirection = 'column';
+                    list.style.position = 'absolute';
+                    list.style.top = '70px';
+                    list.style.left = '0';
+                    list.style.width = '100%';
+                    list.style.backgroundColor = 'white';
+                    list.style.padding = '40px 20px';
+                    list.style.boxShadow = '0 10px 15px rgba(0,0,0,0.1)';
+                    list.style.animation = 'slideDown 0.3s ease forwards';
+                    list.style.gap = '20px';
+                } else {
+                    list.style.display = 'none';
+                }
+            });
+
+            if (icon) {
+                if (isOpen) {
+                    icon.classList.replace('fa-bars', 'fa-times');
+                } else {
+                    icon.classList.replace('fa-times', 'fa-bars');
+                }
+            }
+        });
+    }
 
     // 8. NEET Success carousel – prev/next buttons (no auto-loop)
     const neetViewport = document.getElementById('neet-carousel-viewport');
