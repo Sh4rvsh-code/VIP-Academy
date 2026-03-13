@@ -3161,7 +3161,8 @@ footer::before {
 }
 
 .fade-in {
-    opacity: 0;
+    /* Default visible so content shows even if JS fails */
+    opacity: 1;
 }
 
 .fade-in.animate {
@@ -3169,7 +3170,8 @@ footer::before {
 }
 
 .slide-up {
-    opacity: 0;
+    /* Default visible so content shows even if JS fails */
+    opacity: 1;
 }
 
 .slide-up.animate {
